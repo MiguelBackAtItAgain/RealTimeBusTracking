@@ -17,11 +17,11 @@
 
         <script>
 
-            mapboxgl.accessToken = 'your_access_token';
+            mapboxgl.accessToken = '{{ mapbox_token }}';
 
             let map =  new mapboxgl.Map({
                 container: 'map',
-                style: 'your_stylesheet',
+                style: 'mapbox://styles/miguelbritosuq/cm0codogm01gb01qqej695f5h',
                 center: [-71.091542, 42.358862],
                 zoom: 12
             })
@@ -34,9 +34,9 @@
             };
 
             async function getLocations() {
-                let response = await fetch("http://localhost:5000/getTransportData",
+                let response = await fetch("http://localhost:3000/getTransportData",
                                             {
-                                                method: "POST",
+                                                method: "GET",
                                                 headers: {
                                                     'Content-Type': 'application/json'
                                                 }
@@ -62,8 +62,6 @@
                 setTimeout(addMarkers, 5000);
             }
             addMarkers();
-
-
         </script>
     </body>
 </html>

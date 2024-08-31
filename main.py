@@ -1,30 +1,24 @@
-import urllib.request
 from flask_cors import CORS
-import json
-from flask import Flask, request, jsonify
+from flask import Flask, render_template
+from Controller.BusRouteController import bus
+import os
 
 app = Flask(__name__)
 CORS(app)
+busObj = bus()
 
-def get_transport_data():
-    url = "https://api-v3.mbta.com/vehicles?filter[route]=1&include=trip"
-    response = urllib.request.urlopen(url).read()
-    data = json.loads(response)
-    return data
+@app.route('/')
+def index():
+    token = os.getenv('MAPBOX_ACCESS_TOKEN')
+    return render_template('index.html', mapbox_token=token)
 
-@app.route('/getTransportData', methods=['POST'])
-def webhook():
-    all_data = get_transport_data()
-    data_list = all_data.get('data', [])
-    filtered_data = [
-        {
-            "id": vehicle.get('id'),
-            "latitude": vehicle["attributes"].get('latitude'),
-            "longitude": vehicle["attributes"].get('longitude')
-        }
-        for vehicle in data_list
-    ]
-    return jsonify(filtered_data)
+def create():
+    busObj.write()
+
+@app.route('/getTransportData', methods=['GET', 'POST'])
+def read():
+    create()
+    return busObj.read()
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=3000)
