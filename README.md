@@ -36,9 +36,9 @@ This project demonstrates the integration of Mapbox GL JS with a Flask backend t
     ```
 
 4. **Set up your `.env` file** (if using environment variables):
-    Create a `.env` file in the root directory and add your Mapbox token:
+    Set the "mapboxgl.accessToken" in your view:
     ```env
-    MAPBOX_ACCESS_TOKEN=your_mapbox_access_token_here
+    mapboxgl.accessToken=your_mapbox_access_token_here
     ```
 
 5. **Run the Flask application**:
